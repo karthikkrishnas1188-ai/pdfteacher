@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { UploadCloud, FileText, CheckCircle } from 'lucide-react';
 import axios from 'axios';
 
-const PDFUpload = () => {
+const PDFUpload = ({ 
+  title = "Select PDF Document", 
+  endpoint = "http://localhost:8000/api/upload/",
+  buttonText = "Upload to Teacher"
+}) => {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('idle'); // idle, uploading, success, error
 
@@ -21,7 +25,7 @@ const PDFUpload = () => {
 
     try {
       setStatus('uploading');
-      await axios.post('http://localhost:8000/api/upload/', formData, {
+      await axios.post(endpoint, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setStatus('success');
@@ -42,13 +46,13 @@ const PDFUpload = () => {
         ) : (
           <UploadCloud size={48} />
         )}
-        <h3>{file ? file.name : "Select PDF Document"}</h3>
+        <h3>{file ? file.name : title}</h3>
         <p>{file ? "Ready to upload" : "Click or drag file here"}</p>
       </label>
 
       {file && (
         <button className="upload-button" onClick={handleUpload} disabled={status === 'uploading'}>
-          {status === 'uploading' ? 'Uploading...' : 'Upload to Teacher'}
+          {status === 'uploading' ? 'Uploading...' : buttonText}
         </button>
       )}
     </div>

@@ -9,6 +9,13 @@ def upload_pdf(request):
     return Response({'error': 'No file uploaded'}, status=400)
 
 @api_view(['POST'])
+def upload_question_paper(request):
+    file = request.FILES.get('file')
+    if file:
+        return Response({'message': f'Received question paper {file.name}'})
+    return Response({'error': 'No file uploaded'}, status=400)
+
+@api_view(['POST'])
 def chat(request):
     message = request.data.get('message', '')
     return Response({'reply': f'You said: {message}. This is your PDF Teacher!'})
