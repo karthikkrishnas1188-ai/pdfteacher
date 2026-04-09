@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
-import UploadView from './components/UploadView';
-import ChatView from './components/ChatView';
+import React from 'react';
+import Chat from './components/Chat';
+import PDFUpload from './components/PDFUpload';
 
 function App() {
-  const [activeDocument, setActiveDocument] = useState(null);
-
-  const handleUploadComplete = (doc) => {
-    setActiveDocument(doc);
-  };
-
-  const handleReset = () => {
-    setActiveDocument(null);
-  };
-
   return (
     <div className="app-container">
-      <div className="glass-panel" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        {!activeDocument ? (
-          <UploadView onUploadComplete={handleUploadComplete} />
-        ) : (
-          <ChatView document={activeDocument} onReset={handleReset} />
-        )}
+      <div className="header">
+        <h1 className="header-title">PDF Teacher</h1>
+        <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>AI Powered</div>
+      </div>
+      <div className="main-content">
+        <div className="sidebar">
+          <h2 style={{ marginBottom: '1.5rem', fontSize: '1.1rem', color: 'var(--text-primary)' }}>Your Document</h2>
+          <PDFUpload />
+        </div>
+        <Chat />
       </div>
     </div>
   );

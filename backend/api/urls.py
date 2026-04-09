@@ -1,10 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import DocumentViewSet
-
-router = DefaultRouter()
-router.register(r'documents', DocumentViewSet)
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('upload/', views.upload_pdf, name='upload_pdf'),
+    path('chat/', views.chat, name='chat'),
 ]
