@@ -7,6 +7,7 @@ const Chat = () => {
     { id: 1, text: "Hello! Upload a PDF on the left, and ask me anything about it.", sender: "bot" }
   ]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -24,6 +25,7 @@ const Chat = () => {
     const userMsg = { id: Date.now(), text: input, sender: 'user' };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
+    setIsLoading(true);
 
     try {
       const response = await axios.post('http://localhost:8000/api/chat/', {
@@ -36,6 +38,8 @@ const Chat = () => {
       console.error('Chat error', error);
       const errorMsg = { id: Date.now() + 1, text: "Sorry, I'm having trouble connecting to the server.", sender: 'bot' };
       setMessages(prev => [...prev, errorMsg]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,6 +51,11 @@ const Chat = () => {
             {msg.text}
           </div>
         ))}
+        {isLoading && (
+          <div className="message bot">
+            <span className="typing-indicator">Thinking...</span>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
       
